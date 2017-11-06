@@ -1,0 +1,42 @@
+#!/bin/bash
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+mkdir -p $CACHE_DIR
+
+if [ -d $CACHE_DIR/.local ]; then
+  ln -s $CACHE_DIR/.local $HOME/.local
+else
+  echo "Build roswell"
+  git clone -b release https://github.com/roswell/roswell
+  pushd roswell
+  sh bootstrap
+  ./configure --prefix ~/.local/
+  make && make install
+
+  popd
+  cp -rf $HOME/.local/ $CACHE_DIR/
+fi 
+
+if [ -d $CACHE_DIR/.roswell ]; then
+  ln -s $CACHE_DIR/.roswell $HOME/.roswell
+else
+  echo "Setup roswell"
+  $1/.local/bin/ros setup
+
+  cp -rf $HOME/.roswell/ $CACHE_DIR/
+fi
+
+$HOME/.local/bin/ros --version
+$HOME/.local/bin/ros run -- --version
+
+mkdir -p $BUILD_DIR/.profile.d
+PROFILE_PATH=$BUILD_DIR/.profile.d/buildpack-roswell.sh
+echo 'export PATH="$HOME/.roswell/bin:$HOME/.local/bin:$PATH"' >> $PROFILE_PATH
+
+echo "Copy .local/"
+cp -rf $CACHE_DIR/.local $BUILD_DIR
+
+echo "Copy .roswell/"
+cp -rf $CACHE_DIR/.roswell $BUILD_DIR
