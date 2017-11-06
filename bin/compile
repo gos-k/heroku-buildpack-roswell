@@ -50,10 +50,10 @@ fi
 
 $ROSWELL run -- --version
 
-if [ -f "$BUILD_DIR/.roswell-system-list" ]; then
-  for i in $(cat "$BUILD_DIR/.roswell-system-list")
+if [ -f "$BUILD_DIR/.roswell-quickload-list" ]; then
+  for i in $(cat "$BUILD_DIR/.roswell-quickload-list")
   do
-    $ROSWELL -s $i run -q
+    $ROSWELL run -e "(ql:quickload :$i)" -q
   done
 fi
 
