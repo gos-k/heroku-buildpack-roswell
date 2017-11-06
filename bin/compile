@@ -50,7 +50,7 @@ fi
 
 $ROSWELL run -- --version
 
-if [ -n -d $CACHE_DIR/.roswell ]; then
+if [ ! -d $CACHE_DIR/.roswell ]; then
   cp -rf $HOME/.roswell/ $CACHE_DIR/
 fi
 
