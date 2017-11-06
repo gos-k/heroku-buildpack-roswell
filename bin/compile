@@ -19,6 +19,9 @@ else
   cp -rf $HOME/.local/ $CACHE_DIR/
 fi 
 
+mkdir -p $CACHE_DIR/.cache
+ln -s $CACHE_DIR/.cache $HOME/.cache
+
 if [ -d $CACHE_DIR/.roswell ]; then
   ln -s $CACHE_DIR/.roswell $HOME/.roswell
 else
@@ -54,6 +57,9 @@ echo 'export PATH="$HOME/.roswell/bin:$HOME/.local/bin:$PATH"' >> $PROFILE_PATH
 
 echo "Copy .local/"
 cp -rf $CACHE_DIR/.local $BUILD_DIR
+
+echo "Copy .cache/"
+cp -rf $CACHE_DIR/.cache $BUILD_DIR
 
 echo "Copy .roswell/"
 cp -rf $CACHE_DIR/.roswell $BUILD_DIR
