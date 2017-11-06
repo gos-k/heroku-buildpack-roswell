@@ -30,7 +30,6 @@ fi
 
 ROSWELL=$HOME/.local/bin/ros
 $ROSWELL --version
-$ROSWELL run -- --version
 
 if [ -f "$BUILD_DIR/.roswell-install-list" ]; then
   for i in $(cat "$BUILD_DIR/.roswell-install-list")
@@ -46,6 +45,8 @@ if [ -f "$BUILD_DIR/.roswell-use" ]; then
 else
   echo "Skip .roswell-use"
 fi
+
+$ROSWELL run -- --version
 
 mkdir -p $BUILD_DIR/.profile.d
 PROFILE_PATH=$BUILD_DIR/.profile.d/buildpack-roswell.sh
