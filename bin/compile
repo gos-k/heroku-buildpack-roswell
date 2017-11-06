@@ -50,6 +50,13 @@ fi
 
 $ROSWELL run -- --version
 
+if [ -f "$BUILD_DIR/.roswell-system-list" ]; then
+  for i in $(cat "$BUILD_DIR/.roswell-system-list")
+  do
+    $ROSWELL -s $i run -q
+  done
+fi
+
 if [ ! -d $CACHE_DIR/.roswell ]; then
   cp -rf $HOME/.roswell/ $CACHE_DIR/
 fi
