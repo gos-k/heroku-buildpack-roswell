@@ -28,8 +28,24 @@ else
   cp -rf $HOME/.roswell/ $CACHE_DIR/
 fi
 
-$HOME/.local/bin/ros --version
-$HOME/.local/bin/ros run -- --version
+ROSWELL=$HOME/.local/bin/ros
+$ROSWELL --version
+$ROSWELL run -- --version
+
+if [ -f "$BUILD_DIR/.roswell-install-list" ]; then
+  for i in $(cat "$BUILD_DIR/.roswell-install-list")
+  do
+    $ROSWELL install $i
+  done
+else
+  echo "Skip .roswell-install-list"
+fi
+
+if [ -f "$BUILD_DIR/.roswell-use" ]; then
+  $ROSWELL use $(cat "$BUILD_DIR/.roswell-use")
+else
+  echo "Skip .roswell-use"
+fi
 
 mkdir -p $BUILD_DIR/.profile.d
 PROFILE_PATH=$BUILD_DIR/.profile.d/buildpack-roswell.sh
