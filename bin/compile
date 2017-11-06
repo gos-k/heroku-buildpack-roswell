@@ -19,6 +19,8 @@ else
   cp -rf $HOME/.local/ $CACHE_DIR/
 fi 
 
+ROSWELL=$HOME/.local/bin/ros
+
 mkdir -p $CACHE_DIR/.cache
 ln -s $CACHE_DIR/.cache $HOME/.cache
 
@@ -26,12 +28,9 @@ if [ -d $CACHE_DIR/.roswell ]; then
   ln -s $CACHE_DIR/.roswell $HOME/.roswell
 else
   echo "Setup roswell"
-  $1/.local/bin/ros setup
-
-  cp -rf $HOME/.roswell/ $CACHE_DIR/
+  $ROSWELL setup
 fi
 
-ROSWELL=$HOME/.local/bin/ros
 $ROSWELL --version
 
 if [ -f "$BUILD_DIR/.roswell-install-list" ]; then
@@ -50,6 +49,10 @@ else
 fi
 
 $ROSWELL run -- --version
+
+if [ -n -d $CACHE_DIR/.roswell ]; then
+  cp -rf $HOME/.roswell/ $CACHE_DIR/
+fi
 
 mkdir -p $BUILD_DIR/.profile.d
 PROFILE_PATH=$BUILD_DIR/.profile.d/buildpack-roswell.sh
