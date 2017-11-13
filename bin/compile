@@ -35,6 +35,7 @@ $ROSWELL --version
 if [ -f "$BUILD_DIR/.roswell-install-list" ]; then
   for i in $(cat "$BUILD_DIR/.roswell-install-list")
   do
+    echo "install $i"
     $ROSWELL install $i
   done
 else
@@ -42,6 +43,7 @@ else
 fi
 
 if [ -f "$BUILD_DIR/.roswell-use" ]; then
+  echo "use $(cat "$BUILD_DIR/.roswell-use")"
   $ROSWELL use $(cat "$BUILD_DIR/.roswell-use")
 else
   echo "Skip .roswell-use"
@@ -52,6 +54,7 @@ $ROSWELL run -- --version
 if [ -f "$BUILD_DIR/.roswell-load-system-list" ]; then
   for i in $(cat "$BUILD_DIR/.roswell-load-system-list")
   do
+    echo "load system $i"
     $ROSWELL run -s "$i" -q
   done
 else
