@@ -49,11 +49,13 @@ fi
 
 $ROSWELL run -- --version
 
-if [ -f "$BUILD_DIR/.roswell-quickload-list" ]; then
-  for i in $(cat "$BUILD_DIR/.roswell-quickload-list")
+if [ -f "$BUILD_DIR/.roswell-load-system-list" ]; then
+  for i in $(cat "$BUILD_DIR/.roswell-load-system-list")
   do
-    $ROSWELL run -e "(ql:quickload :$i)" -q
+    $ROSWELL run run -s "$i" -q
   done
+else
+  echo "Skip .roswell-load-system-list"
 fi
 
 echo "Copy .local/"
